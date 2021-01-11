@@ -4,10 +4,28 @@ const db = require("../../data/dbConfig")
 function get(id) {
     if(id) {
         return db.table("tasks")
+            .leftJoin("projects", "tasks.project_id", "projects.project_id")
             .where("task_id", id)
+            .select(
+                "tasks.task_id",
+                "tasks.task_description",
+                "tasks.task_notes",
+                "tasks.task_completed",
+                "projects.project_name",
+                "projects.project_description"
+            )
             .first()
     } else {
         return db.table("tasks")
+            .leftJoin("projects", "tasks.project_id", "projects.project_id")
+            .select(
+                "tasks.task_id",
+                "tasks.task_description",
+                "tasks.task_notes",
+                "tasks.task_completed",
+                "projects.project_name",
+                "projects.project_description"
+            )
     }
 }
 
